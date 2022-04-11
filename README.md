@@ -1,2 +1,2 @@
 # Snake game
-Simple pygame game
+Simple pygame project
