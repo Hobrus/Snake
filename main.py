@@ -10,9 +10,6 @@ class Snake:
         self.size = size
         self.dir_x = 0 # -1 0 1
         self.dir_y = 0
-        self.count = 5
-        self.heads = []
-        self.add_head()
 
     def move(self):
         if self.dir_x == 1:
@@ -23,8 +20,6 @@ class Snake:
             self.y += speed
         if self.dir_y == -1:
             self.y -= speed
-        self.add_head()
-        self.remove_head()
 
     def move_right(self):
         self.dir_x = 1
@@ -41,38 +36,6 @@ class Snake:
     def move_up(self):
         self.dir_x = 0
         self.dir_y = -1
-
-    def add_head(self):
-        self.heads.append(Snake_head(self.x, self.y, self.color, self.speed, self.size))
-
-    def remove_head(self):
-        if len(self.heads) > self.count:
-            self.heads.pop(0)
-
-    def draw(self, screen):
-        for head in self.heads:
-            head.draw(screen)
-
-    def check_walls(self):
-        for head in self.heads:
-            head.check_walls
-
-    def check_food(self, food_x, food_y):
-        is_eat = False
-        for head in self.heads:
-            is_eat = head.check_food(food_x, food_y)
-        return is_eat
-
-
-class Snake_head:
-    def __init__(self, x, y, color, speed, size):
-        self.x = x
-        self.y = y
-        self.color = color
-        self.speed = speed
-        self.size = size
-        self.dir_x = 0 # -1 0 1
-        self.dir_y = 0
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.size, self.size))
