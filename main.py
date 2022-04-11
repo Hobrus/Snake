@@ -8,18 +8,34 @@ class Snake:
         self.color = color
         self.speed = speed
         self.size = size
+        self.dir_x = 0 # -1 0 1
+        self.dir_y = 0
+
+    def move(self):
+        if self.dir_x == 1:
+            self.x += self.speed
+        if self.dir_x == -1:
+            self.x -= self.speed
+        if self.dir_y == 1:
+            self.y += speed
+        if self.dir_y == -1:
+            self.y -= speed
 
     def move_right(self):
-        self.x += self.speed
+        self.dir_x = 1
+        self.dir_y = 0
 
     def move_left(self):
-        self.x -= self.speed
+        self.dir_x = -1
+        self.dir_y = 0
 
     def move_down(self):
-        self.y += speed
+        self.dir_x = 0
+        self.dir_y = 1
 
     def move_up(self):
-        self.y -= speed
+        self.dir_x = 0
+        self.dir_y = -1
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.size, self.size))
@@ -108,6 +124,7 @@ while True:
     if is_key_down:
         snake.move_down()
 
+    snake.move()
     snake.check_walls()
     is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
