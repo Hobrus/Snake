@@ -8,18 +8,71 @@ class Snake:
         self.color = color
         self.speed = speed
         self.size = size
+        self.dir_x = 0 # -1 0 1
+        self.dir_y = 0
+        self.count = 5
+        self.heads = []
+        self.add_head()
+
+    def move(self):
+        if self.dir_x == 1:
+            self.x += self.speed
+        if self.dir_x == -1:
+            self.x -= self.speed
+        if self.dir_y == 1:
+            self.y += speed
+        if self.dir_y == -1:
+            self.y -= speed
+        self.add_head()
+        self.remove_head()
 
     def move_right(self):
-        self.x += self.speed
+        self.dir_x = 1
+        self.dir_y = 0
 
     def move_left(self):
-        self.x -= self.speed
+        self.dir_x = -1
+        self.dir_y = 0
 
     def move_down(self):
-        self.y += speed
+        self.dir_x = 0
+        self.dir_y = 1
 
     def move_up(self):
-        self.y -= speed
+        self.dir_x = 0
+        self.dir_y = -1
+
+    def add_head(self):
+        self.heads.append(Snake_head(self.x, self.y, self.color, self.speed, self.size))
+
+    def remove_head(self):
+        if len(self.heads) > self.count:
+            self.heads.pop(0)
+
+    def draw(self, screen):
+        for head in self.heads:
+            head.draw(screen)
+
+    def check_walls(self):
+        for head in self.heads:
+            head.check_walls
+
+    def check_food(self, food_x, food_y):
+        is_eat = False
+        for head in self.heads:
+            is_eat = head.check_food(food_x, food_y)
+        return is_eat
+
+
+class Snake_head:
+    def __init__(self, x, y, color, speed, size):
+        self.x = x
+        self.y = y
+        self.color = color
+        self.speed = speed
+        self.size = size
+        self.dir_x = 0 # -1 0 1
+        self.dir_y = 0
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.size, self.size))
@@ -37,7 +90,6 @@ class Snake:
     def check_food(self, food_x, food_y):
         if self.x == food_x and self.y == food_y:
             return True
-        return False
 
 WIDTH = 720
 HEIGHT = 480
@@ -73,7 +125,7 @@ food_y = 150
 
 is_eat = True
 
-snake = Snake(3*speed, 3*speed, Red, speed, size)
+snake = Snake(3 * speed, 3 * speed, Red, speed, size)
 while True:
     sr.fill(Black)
 
@@ -108,6 +160,7 @@ while True:
     if is_key_down:
         snake.move_down()
 
+    snake.move()
     snake.check_walls()
     is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
