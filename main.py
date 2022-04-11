@@ -89,6 +89,15 @@ while True:
                 is_key_top = True
             if event.key == pygame.K_DOWN:
                 is_key_down = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                is_key_right = False
+            if event.key == pygame.K_LEFT:
+                is_key_left = False
+            if event.key == pygame.K_UP:
+                is_key_top = False
+            if event.key == pygame.K_DOWN:
+                is_key_down = False
 
     if is_key_right:
         snake.move_right()
