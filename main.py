@@ -1,6 +1,8 @@
 import pygame
 import random
 
+pygame.init()
+
 class Snake:
     def __init__(self, x, y, color, speed, size):
         self.x = x
@@ -114,9 +116,14 @@ food_y = 150
 
 is_eat = True
 
+f1 = pygame.font.Font(None, 36)
+text1 = f1.render("Game over", True, Red)
+
 snake = Snake(3 * speed, 3 * speed, Red, speed, size)
 while True:
     sr.fill(Black)
+
+    sr.blit(text1, (250, 200))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
