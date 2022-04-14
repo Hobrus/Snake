@@ -13,7 +13,7 @@ class Snake:
         self.size = size
         self.dir_x = 0 # -1 0 1
         self.dir_y = 0
-        self.count = 10
+        self.count = 1
         self.heads = []
         self.add_head()
 
@@ -61,6 +61,12 @@ class Snake:
             return False
         return True
 
+    def check_food(self, food_x, food_y):
+        if self.x == food_x and self.y == food_y:
+            self.count += 1
+            return True
+        return False
+
 class Snake_head:
     def __init__(self, x, y, color, speed, size):
         self.x = x
@@ -74,17 +80,13 @@ class Snake_head:
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.size, self.size))
 
-    def check_food(self, food_x, food_y):
-        if self.x == food_x and self.y == food_y:
-            return True
-
 WIDTH = 720
 HEIGHT = 480
 
 Black = (0,0,0)
 White = (255,255,255)
 Red = (255,0,0)
-Lime = (0,255,0)
+Green = (0,255,0)
 Blue= (0,0,255)
 
 sr = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -122,6 +124,9 @@ is_game_active = True
 while is_game_active:
     sr.fill(Black)
 
+    f2 = pygame.font.Font(None, 36)
+    score_text = f2.render(str(snake.count), True, Green)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             quit()
@@ -155,13 +160,14 @@ while is_game_active:
 
     snake.move()
     is_game_active = snake.check_walls()
-    # is_eat = snake.check_food(food_x, food_y)
+    is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
     if is_eat:
         food_x = random.randint(0, WIDTH) * speed % WIDTH
         food_y = random.randint(0, HEIGHT) * speed % HEIGHT
 
-    # pygame.draw.rect(sr, Blue, (food_x, food_y, size, size))
+    sr.blit(score_text, (0, 0))
+    pygame.draw.rect(sr, Blue, (food_x, food_y, size, size))
     pygame.display.update()
     clock.tick(fps)
 
