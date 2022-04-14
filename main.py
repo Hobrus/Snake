@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 pygame.init()
 
@@ -55,6 +56,11 @@ class Snake:
         self.dir_x = 0
         self.dir_y = -1
 
+    def check_walls(self):
+        if self.x <= 0 or self.y <= 0 or self.y >= HEIGHT or self.x >= WIDTH:
+            return False
+        return True
+
 class Snake_head:
     def __init__(self, x, y, color, speed, size):
         self.x = x
@@ -67,16 +73,6 @@ class Snake_head:
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, (self.x, self.y, self.size, self.size))
-
-    def check_walls(self):
-        if self.x <= 0:
-            self.move_right()
-        if self.y <= 0:
-            self.move_down()
-        if self.y >= HEIGHT:
-            self.move_up()
-        if self.x >= WIDTH:
-            self.move_left()
 
     def check_food(self, food_x, food_y):
         if self.x == food_x and self.y == food_y:
@@ -117,13 +113,14 @@ food_y = 150
 is_eat = True
 
 f1 = pygame.font.Font(None, 36)
-text1 = f1.render("Game over", True, Red)
+game_over_text = f1.render("Game over", True, Red)
 
 snake = Snake(3 * speed, 3 * speed, Red, speed, size)
-while True:
-    sr.fill(Black)
 
-    sr.blit(text1, (250, 200))
+is_game_active = True
+
+while is_game_active:
+    sr.fill(Black)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -157,7 +154,7 @@ while True:
         snake.move_down()
 
     snake.move()
-    # snake.check_walls()
+    is_game_active = snake.check_walls()
     # is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
     if is_eat:
@@ -167,3 +164,7 @@ while True:
     # pygame.draw.rect(sr, Blue, (food_x, food_y, size, size))
     pygame.display.update()
     clock.tick(fps)
+
+sr.blit(game_over_text, (250, 200))
+pygame.display.update()
+time.sleep(10)
