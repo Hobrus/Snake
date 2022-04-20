@@ -4,6 +4,24 @@ import time
 
 pygame.init()
 
+def main_menu():
+    menu = True
+    while menu:
+        sr.fill(DarkGreen)
+
+        f1 = pygame.font.SysFont("Comic Sans MS", 90)
+        title = f1.render("Snake game", True, Yellow)
+        f2 = pygame.font.SysFont("Comic Sans MS", 75)
+        start = f2.render("START", True, Yellow)
+        quit = f2.render("QUIT", True, Yellow)
+
+        sr.blit(title, (WIDTH/2 - 300,80))
+        sr.blit(start, (WIDTH / 2, 200))
+        sr.blit(quit, (WIDTH / 2, 300))
+
+        pygame.display.update()
+        clock.tick(fps)
+
 class Snake:
     def __init__(self, x, y, color, speed, size):
         self.x = x
@@ -114,7 +132,9 @@ Black = (0,0,0)
 White = (255,255,255)
 Red = (255,0,0)
 Green = (0,255,0)
-Blue= (0,0,255)
+DarkGreen = (0,100,0)
+Blue = (0,0,255)
+Yellow = (255,255,0)
 
 sr = pygame.display.set_mode((WIDTH,HEIGHT))
 
@@ -147,6 +167,8 @@ game_over_text = f1.render("Game over", True, Red)
 snake = Snake(3 * speed, 3 * speed, Red, speed, size)
 
 is_game_active = True
+
+main_menu()
 
 while is_game_active:
     sr.fill(Black)
