@@ -6,14 +6,35 @@ pygame.init()
 
 def main_menu():
     menu = True
+    selected = "start"
     while menu:
         sr.fill(DarkGreen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    selected = "start"
+                if event.key == pygame.K_DOWN:
+                    selected = "quit"
+                if event.key == pygame.K_RETURN:
+                    if selected == "start":
+                        return True
+                    else:
+                        return False
 
         f1 = pygame.font.SysFont("Comic Sans MS", 90)
         title = f1.render("Snake game", True, Yellow)
         f2 = pygame.font.SysFont("Comic Sans MS", 75)
-        start = f2.render("START", True, Yellow)
-        quit = f2.render("QUIT", True, Yellow)
+        if selected == "start":
+            start = f2.render("START", True, Black)
+        else:
+            start = f2.render("START", True, Yellow)
+        if selected == "quit":
+            quit = f2.render("QUIT", True, Black)
+        else:
+            quit = f2.render("QUIT", True, Yellow)
 
         sr.blit(title, (WIDTH/2 - 300,80))
         sr.blit(start, (WIDTH / 2, 200))
@@ -166,9 +187,7 @@ game_over_text = f1.render("Game over", True, Red)
 
 snake = Snake(3 * speed, 3 * speed, Red, speed, size)
 
-is_game_active = True
-
-main_menu()
+is_game_active = main_menu()
 
 while is_game_active:
     sr.fill(Black)
