@@ -56,6 +56,10 @@ class Snake:
         self.heads = [] # 0 1
         self.add_head()
 
+    def change_color(self):
+        colors = [White, Red, Green, DarkGreen, Blue, Yellow]
+        self.color = random.choice(colors)
+
     def add_head(self):
         self.heads.append(Snake_head(self.x, self.y, self.color, self.speed, self.size))
 
@@ -233,6 +237,7 @@ while is_game_active:
     is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
     if is_eat:
+        snake.change_color()
         is_repeat = True
         while is_repeat:
             is_repeat = False
