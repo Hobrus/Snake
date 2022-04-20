@@ -192,8 +192,14 @@ while is_game_active:
     is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
     if is_eat:
-        food_x = random.randint(0, WIDTH) * speed % WIDTH
-        food_y = random.randint(0, HEIGHT) * speed % HEIGHT
+        is_repeat = True
+        while is_repeat:
+            is_repeat = False
+            food_x = random.randint(0, WIDTH) * speed % WIDTH
+            food_y = random.randint(0, HEIGHT) * speed % HEIGHT
+            for snake_head in snake.heads:
+                if food_x == snake_head.x and food_y == snake_head.y:
+                    is_repeat = True
 
     sr.blit(score_text, (0, 0))
     pygame.draw.rect(sr, Blue, (food_x, food_y, size, size))
