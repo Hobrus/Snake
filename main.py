@@ -14,7 +14,7 @@ class Snake:
         self.dir_x = 0 # -1 0 1
         self.dir_y = 0
         self.count = 1
-        self.heads = []
+        self.heads = [] # 0 1
         self.add_head()
 
     def add_head(self):
@@ -57,8 +57,15 @@ class Snake:
         self.dir_y = -1
 
     def check_walls(self):
-        if self.x <= 0 or self.y <= 0 or self.y >= HEIGHT or self.x >= WIDTH:
+        if self.x <= 0 or self.y <= 0 or self.y >= HEIGHT - self.size or self.x >= WIDTH - self.size:
             return False
+        return True
+
+    def check_snake(self): # 0 0 1 len 3
+        for i in range(len(self.heads)):
+            if i != len(self.heads) - 1:
+                if self.x == self.heads[i].x and self.y == self.heads[i].y:
+                    return False
         return True
 
     def check_food(self, food_x, food_y):
@@ -95,7 +102,7 @@ pygame.display.set_caption('SkySmart Game')
 image = pygame.image.load('skyicon.PNG')
 pygame.display.set_icon(image)
 
-fps = 20 # frames per second
+fps = 10 # frames per second
 clock = pygame.time.Clock()
 
 is_key_right = False
@@ -160,6 +167,7 @@ while is_game_active:
 
     snake.move()
     is_game_active = snake.check_walls()
+    is_game_active = snake.check_snake()
     is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
     if is_eat:
