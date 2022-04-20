@@ -41,20 +41,40 @@ class Snake:
         self.remove_head()
 
     def move_right(self):
-        self.dir_x = 1
-        self.dir_y = 0
+        if self.count == 1:
+            self.dir_x = 1
+            self.dir_y = 0
+        else:
+            if self.dir_y:
+                self.dir_x = 1
+                self.dir_y = 0
 
     def move_left(self):
-        self.dir_x = -1
-        self.dir_y = 0
+        if self.count == 1:
+            self.dir_x = -1
+            self.dir_y = 0
+        else:
+            if self.dir_y:
+                self.dir_x = -1
+                self.dir_y = 0
 
     def move_down(self):
-        self.dir_x = 0
-        self.dir_y = 1
+        if self.count == 1:
+            self.dir_x = 0
+            self.dir_y = 1
+        else:
+            if self.dir_x:
+                self.dir_x = 0
+                self.dir_y = 1
 
     def move_up(self):
-        self.dir_x = 0
-        self.dir_y = -1
+        if self.count == 1:
+            self.dir_x = 0
+            self.dir_y = -1
+        else:
+            if self.dir_x:
+                self.dir_x = 0
+                self.dir_y = -1
 
     def check_walls(self):
         if self.x <= 0 or self.y <= 0 or self.y >= HEIGHT - self.size or self.x >= WIDTH - self.size:
@@ -166,8 +186,9 @@ while is_game_active:
         snake.move_down()
 
     snake.move()
-    is_game_active = snake.check_walls()
-    is_game_active = snake.check_snake()
+    is_game_active1 = snake.check_walls()
+    is_game_active2 = snake.check_snake()
+    is_game_active = is_game_active1 and is_game_active2
     is_eat = snake.check_food(food_x, food_y)
     snake.draw(sr)
     if is_eat:
