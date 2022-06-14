@@ -47,7 +47,7 @@ class Snake:
     def __init__(self, x, y, color, speed, size):
         self.x = x
         self.y = y
-        self.color = color
+        self.color = Red
         self.speed = speed
         self.size = size
         self.dir_x = 0 # -1 0 1
